@@ -3,13 +3,13 @@ from numba import cuda
 # CUDA kernel
 @cuda.jit
 def square_matrix_kernel(matrix, result):
-    # Calculate the row and column index for each thread
-    row, col = cuda.grid(2)
+  # Calculate the row and column index for each thread
+  row, col = cuda.grid(2)
 
-    # Check if the thread's indices are within the bounds of the matrix
-    if row < matrix.shape[0] and col < matrix.shape[1]:
-        # Perform the square operation
-        result[row, col] = matrix[row, col] ** 2
+  # Check if the thread's indices are within the bounds of the matrix
+  if row < matrix.shape[0] and col < matrix.shape[1]:
+    # Perform the square operation
+    result[row, col] = matrix[row, col] ** 2
 
 # Example usage
 import numpy as np

@@ -21,7 +21,7 @@ def square_kernel(output_ptr, input_ptr, input_row_stride, output_row_stride, n_
     row = tl.load(input_ptrs, mask=col_offsets < n_cols, other=-float('inf'))
 
     square_output = row * row
-    
+
     # Write back output to DRAM
     output_row_start_ptr = output_ptr + row_idx * output_row_stride
     output_ptrs = output_row_start_ptr + col_offsets

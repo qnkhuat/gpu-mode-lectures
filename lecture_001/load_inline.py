@@ -37,27 +37,28 @@ cpp_source = "torch::Tensor square_matrix(torch::Tensor matrix);"
 
 # Load the CUDA kernel as a PyTorch extension
 square_matrix_extension = load_inline(
-    name='square_matrix_extension',
-    cpp_sources=cpp_source,
-    cuda_sources=cuda_source,
-    functions=['square_matrix'],
-    with_cuda=True,
-    extra_cuda_cflags=["-O2"],
-    build_directory='./load_inline_cuda',
-    # extra_cuda_cflags=['--expt-relaxed-constexpr']
+  name='square_matrix_extension',
+  cpp_sources=cpp_source,
+  cuda_sources=cuda_source,
+  functions=['square_matrix'],
+  with_cuda=True,
+  extra_cuda_cflags=["-O2"],
+  build_directory='./load_inline_cuda',
+  # extra_cuda_cflags=['--expt-relaxed-constexpr']
 )
 
 a = torch.tensor([[1., 2., 3.], [4., 5., 6.]], device='cuda')
 print(square_matrix_extension.square_matrix(a))
 
-# (cudamode) ubuntu@ip-172-31-9-217:~/cudamode/cudamodelecture1$ python load_inline.py 
+# (cudamode) ubuntu@ip-172-31-9-217:~/cudamode/cudamodelecture1$ python load_inline.py
 # tensor([[ 1.,  4.,  9.],
 #         [16., 25., 36.]], device='cuda:0')
 
 
+
 ## No great interaction with ncu
 
-# (cudamode) ubuntu@ip-172-31-9-217:~/cudamode/cudamodelecture1$ ncu python load_inline.py 
+# (cudamode) ubuntu@ip-172-31-9-217:~/cudamode/cudamodelecture1$ ncu python load_inline.py
 # ==PROF== Connected to process 55916 (/opt/conda/envs/cudamode/bin/python3.10)
 # /opt/conda/envs/cudamode/lib/python3.10/site-packages/torch/cuda/__init__.py:138: UserWarning: CUDA initialization: Unexpected error from cudaGetDeviceCount(). Did you run some cuda functions before calling NumCudaDevices() that might have already set an error? Error 36: API call is not supported in the installed CUDA driver (Triggered internally at /opt/conda/conda-bld/pytorch_1702400410390/work/c10/cuda/CUDAFunctions.cpp:108.)
 #   return torch._C._cuda_getDeviceCount() > 0
